@@ -1,3 +1,4 @@
+const imageKit = require("../config/imageConfig");
 const Post = require("../models/postModel");
 
 exports.createPost = async (req, res) => {
@@ -69,6 +70,41 @@ exports.updatePost = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "not able to update the post",
+    });
+  }
+};
+
+exports.createPostWithImage = async (req, res) => {
+  try {
+    const { title, body } = req.body;
+    const file = req.file;
+    if (!title || !body || !file) {
+      return res.status(400).json({
+        success: false,
+        message: "post cannot be created",
+      });
+    }
+    const uploadImage = await imageKit.upload({
+      file: file.buffer,
+      fileName: req.file.originalname,
+      folder: "image_uploads",
+    });
+    const posts = await Post.create({
+      userId: req.user.id,
+      title,
+      body,
+      imageUrl: uploadImage.url,
+    });
+    return res.status(200).json({
+      success: true,
+      posts,
+      message: "successfully posted the content",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "post cannot be created",
     });
   }
 };
