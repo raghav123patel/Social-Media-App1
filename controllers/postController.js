@@ -89,7 +89,7 @@ exports.createPostWithImage = async (req, res) => {
       fileName: req.file.originalname,
       folder: "image_uploads",
     });
-    const posts = await Post.create({
+    const posts = await Post.create({ 
       userId: req.user.id,
       title,
       body,
@@ -108,3 +108,56 @@ exports.createPostWithImage = async (req, res) => {
     });
   }
 };
+
+exports.deletePost = async(req,res) => {
+  try{
+    const {id} = req.params;
+    if(!id){
+      return res.status(500).json({
+      success: false,
+      message: "please provide for the post deletion",
+    })
+    }
+    const deletedPost = await Post.findByIdAndDelete(
+      id,
+    );
+    return res.status(200).json({
+      success: true,
+      deletedPost,
+      message: "successfully deleted the post",
+    })
+  } catch(error){
+    console.log("error in deleting the post", error);
+    return res.status(500).json({
+      success: false,
+      message: "post cannot be deleted",
+    })
+  }
+}
+
+
+
+exports.getSinglePost = async(req,res) => {
+  try{
+    const {id} = req.params;
+    if(!id){
+      return res.status(500).json({
+      success: false,
+      message: "please provide the id",
+    });
+  }
+    const findPost = await Post.findById({_id: id}).populate("userId", "firstName lastName");
+     return res.status(200).json({
+      success: true,
+      findPost,
+      message: "post finded successfully with all the likes and comments",
+    })
+  } catch(error){
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "cannot find the post",
+    })
+  }
+}
+

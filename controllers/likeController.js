@@ -28,7 +28,7 @@ exports.getAllLikes = async (req, res) => {
 
     const allLikes = await Like.find({ post: postId }).populate(
       "userId",
-      "firstName lastName"
+      "firstName lastName"  
     );
 
     return res.status(200).json({
@@ -37,7 +37,7 @@ exports.getAllLikes = async (req, res) => {
       message: "All likes fetched successfully",
     });
   } catch (error) {
-    console.error("Error in getAllComments:", error);
+    console.error("Error in getAllComments:", error); 
     return res.status(500).json({
       success: false,
       message: "Server error while fetching all likes",
