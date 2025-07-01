@@ -14,7 +14,10 @@ app.use("/api/v1/comments", commentRoutes);
 const connectWithDb = require("./config/database");
 connectWithDb();
 
-
+if(process.env.VERCEL){
+    module.exports = app;
+}else{
 app.listen(PORT , () => {
     console.log(`Server is running at the port ${PORT}`);
 })
+}
