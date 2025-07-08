@@ -1,10 +1,11 @@
 const imageKit = require("../config/imageConfig");
 const Post = require("../models/postModel");
-
+const User = require("../models/userModel");
 exports.createPost = async (req, res) => {
   try {
     const { title, body } = req.body;
     const file = req.file;
+    console.log(title, body, file);
     if (!title || !body || !file) {
       return res.status(400).json({
         success: false,
@@ -22,6 +23,8 @@ exports.createPost = async (req, res) => {
       body,
       imageUrl: uploadImage.url,
     });
+    await User.findByIdAndUpdate(req.user.id, {$push: {post: posts._id}});
+    console.log(req.user.id);
     return res.status(200).json({
       success: true,
       posts,
@@ -135,7 +138,7 @@ exports.deletePost = async (req, res) => {
       });
     }
     await Post.findByIdAndDelete(id);
-
+    await User.findByIdAndUpdate(req.user.id, {$pull: {post: id}});
     return res.status(200).json({
       success: true,
       message: "Post deleted successfully",

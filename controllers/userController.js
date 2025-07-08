@@ -29,7 +29,7 @@ exports.register = async (req, res) => {
       folder: "image_uploads",
     });
     
-
+    
     const user = await User.create({
       firstName,
       lastName,
@@ -37,7 +37,7 @@ exports.register = async (req, res) => {
       password: hashedPassword,
       imageUrl: uploadedImage.url,
     });
-
+    user.password=undefined;  
     res.status(200).json({ 
         success: true,
         message: "User registered successfully", 
@@ -49,7 +49,7 @@ exports.register = async (req, res) => {
         success: false,
         message: "internal server error" 
     });
-  }
+  }  
 };
 
 
@@ -96,7 +96,7 @@ exports.login = async (req, res) => {
     console.error(error);
     return res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: "Internal Server Error",  
     });
   }
 };

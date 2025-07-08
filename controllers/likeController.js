@@ -2,23 +2,25 @@ const Like = require("../models/likeModel");
 const Post = require("../models/postModel");
 exports.likePost = async (req, res) => {
   try {
-    const { postId } = req.body;
+    const { postId } = req.params;
     const likePost = await Like.create({
       post: postId,
       userId: req.user.id,
     });
+    console.log("postid", postId);
+    console.log("userid", req.user);
     await Post.findByIdAndUpdate(postId, { $push: { likes: likePost._id } });
     return res.status(200).json({
       success: true,
       likePost,
       message: "user successfully liked the post",
-    });
+    });   
   } catch (error) {
     console.log(error);
     return res.status(500).json({
       success: false,
       message: "user cannot like the post",
-    });
+    }); 
   }
 };
 

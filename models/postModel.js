@@ -5,19 +5,19 @@ const postSchema = mongoose.Schema({
     ref: "User",
     required: true,
   },
-  title: {
+  title: {    
     type: String,
     required: true,
   },
   body: {
     type: String,
     required: true,
-  },
+  },   
   likes: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Like",
-    },
+      type: mongoose.Schema.Types.ObjectId,   
+      ref: "Like", 
+    },   
   ],
   comments: [
     {
@@ -28,6 +28,6 @@ const postSchema = mongoose.Schema({
   imageUrl: {
     type: String,
   },
-});
+})                                                                                                               ;
 
-module.exports = mongoose.model("Post", postSchema);
+module.exports = mongoose.model("Post", postSchema);  

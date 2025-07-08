@@ -2,7 +2,8 @@ const Comment = require("../models/commentModel");
 const Post = require("../models/postModel");
 exports.addComment = async (req, res) => {
   try {
-    const { postId, body } = req.body;
+    const { postId } = req.params;
+    const { body } = req.body;
     const comment = await Comment.create({
       post: postId,
       userId: req.user.id,
