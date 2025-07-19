@@ -25,6 +25,13 @@ const postSchema = mongoose.Schema({
       ref: "Comment",
     },
   ],
+  shares: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Share",
+    
+    }
+  ],
   imageUrl: {
     type: String,
   },

@@ -13,6 +13,8 @@ const likeRoutes = require("./routes/likeRoutes");
 app.use("/api/v1/likes", likeRoutes);
 const commentRoutes = require("./routes/commentRoutes");
 app.use("/api/v1/comments", commentRoutes);
+const shareRoutes = require("./routes/shareRoutes");
+app.use("/api/v1/share", shareRoutes);
 const connectWithDb = require("./config/database");
 connectWithDb();
 

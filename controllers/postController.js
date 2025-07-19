@@ -41,7 +41,7 @@ exports.createPost = async (req, res) => {
 
 exports.getAllPosts = async (req, res) => {
   try {
-    const allPosts = await Post.find({});
+    const allPosts = await Post.find({}).populate("userId", "firstName lastName");
     return res.status(200).json({
       success: true,
       data: allPosts,
@@ -66,13 +66,14 @@ exports.updatePost = async (req, res) => {
       });
     }
     const postUpdate = await Post.findById(id);
+    console.log(postUpdate);
     if (postUpdate.userId.toString() !== req.user.id) {
       return res.status(403).json({
         success: false,
         message: "You are not allowed to update this post",
       });
     }
-    postUpdate.title = title;
+    postUpdate.title = title;     
     postUpdate.body = body;
     await postUpdate.save();
     return res.status(200).json({
@@ -147,7 +148,7 @@ exports.deletePost = async (req, res) => {
     console.log("error in deleting the post:", error);
     return res.status(500).json({
       success: false,
-      message: " error while deleting the post",
+      message: " error while deleting the post",           
     });
   }
 };

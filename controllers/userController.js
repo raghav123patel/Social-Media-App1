@@ -6,7 +6,7 @@ exports.register = async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
     const file = req.file;
-
+    console.log(firstName, lastName, email);
     if(!firstName || !lastName || !email || !password || !file){
         return res.status(400).json({ 
             success: false,
@@ -75,7 +75,7 @@ exports.login = async (req, res) => {
       return res.status(403).json({
         success: false,
         message: "Password incorrect",
-      });
+      });       
     }
 
     const payload = {
@@ -99,4 +99,4 @@ exports.login = async (req, res) => {
       message: "Internal Server Error",  
     });
   }
-};
+};   
